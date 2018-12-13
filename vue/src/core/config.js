@@ -13,5 +13,7 @@ import { LIFECYCLE_HOOKS } from '../shared/constans';
 
 export type Config = {
     // user
-    
+    /**
+     * @todo CURRENT
+     */
 }
