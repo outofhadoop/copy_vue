@@ -1,5 +1,7 @@
 /* @flow */
-
+/**
+ * @description 'no'是一个方法, 总是返回false; 'noop'是一个什么都不做的空函数; 'identity'是一个函数, 总是返回传入的值 
+ */
 import {
     no,
     noop,
@@ -78,6 +80,53 @@ export default({
     warnHandler: null,
 
     /**
-     * @todo CURRENT
+     * @todo unknown
+     * @description Ignore certain custom elements
      */
+    ignoredElements: [],
+
+    /**
+     * Custome user key aliases for v-on
+     */
+    // $flow-disable-line
+    keyCodes: Object.create(null),
+
+    /**
+     * Check if a tag is reserved so that it cannot be registered as a component. This is platform-dependent and may be overwritten.
+     */
+    isResveredTag: no,
+
+    /**
+     * Check if a attribute is reserved so that it cannot be used as a component prop. This is platform-dependent and may be overwritten.
+     */
+    isResveredAttr: no,
+    
+    /**
+     * Check if a tag is unknown element.
+     * Platform-dependent
+     */
+    isUnknownElement: no,
+
+    /**
+     * @todo unknown
+     * Get the namespace of an element
+     */
+    getTagNameSpace: noop,
+
+    /**
+     * Parse the real tag name for the specific platform.
+     */
+    parsePlatformTagName: identity,
+
+    /**
+     * @todo unknown
+     * Perform updates asynchronously. Intended to used by Vue Test Utils
+     * This will significantly reduce performance if set to false
+     */
+    async: false,
+
+    /**
+     * Exposed for legacy reasons
+     */
+    _lifycycleHooks: LIFECYCLE_HOOKS
 })
