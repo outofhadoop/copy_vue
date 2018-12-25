@@ -66,16 +66,56 @@ if (process.env.NODE_ENV !== 'production') {
  * @todo something unfilling
  */
 
+/**
+ * 
+ * @param {String} str 
+ * @param {Number} n 
+ */
+const repeat = (str, n) => {
+    let res = ''
+    while (n) {
+        if (n % 2 === 1) res += str
+        if (n > 1) str += str
+        /**
+         * @description >>= 是赋值运算符, 名为有符号右移, 是转为2进制后舍掉右边多少位, 然后左边用0填充
+         * @todo unknown
+         */
+        n >>= 1
+    }
+    return res
+}
+
 generateComponentTrace = vm => {
     /**
-     * @description '_isVue'在src/core/instance/init.js中添加到Vue原型上
+     * @description '_isVue'在src/core/instance/init.js中被添加到Vue原型上
      * 那个位置添加的注释是：a flag to avoid this being observed
      */
     if (vm._isVue && vm.$parent) {
         const tree = []
-        /**
-         * @todo CURRENT
-         */
+        let currentRecursiveSequence = 0
+        while (vm) {
+            if (tree.length > 0) {
+                const last = tree[tree.length - 1]
+                if (last.constructor === vm.constructor) {
+                    currentRecursiveSequence ++
+                    vm = vm.$parent
+                    continue
+                } else if (currentRecursiveSequence > 0) {
+                    tree[tree.length - 1] = [last, currentRecursiveSequence]
+                    currentRecursiveSequence = 0
+                }
+            }
+            tree.push(vm)
+            vm = vm.$parent
+        }
+        return '\n\nfound in\n\n' + tree
+        .map((vm, i) => `${
+            i === 0 ? '--->' : repeat(' ', 5 + i * 2)
+        }${
+            /**
+             * @todo CURRENT
+             */
+        }`)
     }
 }
 
