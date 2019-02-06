@@ -1,7 +1,7 @@
 /**
  * @file vue函数定义的地方
  */
-
+import { initMixin } from './init'
 /**
  * @description 定义函数，仅几行代码，其余都是动态拓展
  * @param {Object} options 这个参数会传进Vue._init函数里
@@ -24,4 +24,15 @@ function Vue ( options ) {
      */
     warn('Vue is a constructor and should be called with the `new` keyword');
   }
+  /**
+   * 在 initMixin 里定义了 _init 方法
+   */
+  this._init(options)
+
 }
+
+initMixin(Vue)
+
+/**
+ * @todo something unfilling
+ */
