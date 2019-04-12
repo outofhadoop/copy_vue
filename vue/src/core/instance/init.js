@@ -10,7 +10,7 @@ export function initMixin(Vue: Class<Component>) {
     // a uid
     vm.uid = uid++
     /**
-     * @todo CURRENT
+     * @todo main
      */
   }
 }
