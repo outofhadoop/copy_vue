@@ -9,3 +9,5 @@
 
 ### 2018-12-8
 * warn vue 内置警告函数
+
+do some thing test
