@@ -1,7 +1,10 @@
 # copy_vue
 
 # todo rules
-
+such as :
+/**
+ * @todo CURRENT
+ */
 1. unknown (当前不知道是干什么用的)
 2. main (主线位置)
 3. something unfilling (在当前行之前还有待填充的内容)
