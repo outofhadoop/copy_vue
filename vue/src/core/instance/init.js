@@ -81,8 +81,9 @@ export function resolveConstructorOptions(Ctor: Class < Component > ) {
       const modifiedOptions = resolveModifiedOptions(Ctor)
         // update base extend options
       if (modifiedOptions) {
+
         /**
-         * @todo CURRENT
+         * @todo main
          */
         extend(Ctor.extendOptions, modifiedOptions)
       }
