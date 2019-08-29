@@ -179,6 +179,47 @@ export const capitalize = cached((str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 })
 
+/**
+ * Hyphenate a camelCase string.
+ */
+const hyphenateRE = /\B(A-Z)/g
+export const hyphenate = cached((str: string): string => {
+  return str.replace(hyphenateRE, '-$1').toLocaleLowerCase()
+})
+
+/**
+ * Simple bind polyfill for environments that do not supports it ,
+ * e.g., PhantomJS 1.x Technically, we don't it anymore
+ * since native bind is now performant enough in most browsers.
+ * But removing it would mean breaking code that was able to run in 
+ * PhantomJS 1.x, so this must be kept for backward compatibility.
+ */
+
+/** istanbul ignore next */
+function polyfillBind(fn: Function, ctx: Object): Function {
+  function boundFn(a) {
+    const l = arguments.length
+    return l ?
+      l > 1 ?
+      fn.apply(ctx, arguments) :
+      fn.call(ctx, a) :
+      fn.call(ctx)
+  }
+
+  boundFn._length = fn.length
+  return boundFn
+}
+
+function nativeBind(fn: Function, ctx: Object): Function {
+  return fn.bind(ctx)
+}
+
+export const bind = Function.prototype.bind ? nativeBind : polyfillBind
+
+/**
+ * Convert an Array-like object to a real Array
+ */
+
 
 /**
  * @todo CURRENT
