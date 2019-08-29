@@ -277,8 +277,32 @@ export const no = (a ? : any, b ? : any, c ? : any) => false
  */
 export const identity = (_ ? : any) => _
 
+/**
+ * Generate a string containing static keys from compiler modules
+ */
+export function genStaticKeys(modules: Array < ModuleOptions > ): string {
+  return modules.reduce((keys, m) => {
+    return keys.concat(m.staticKeys || [])
+  }, []).join(',')
+}
 
-
+/**
+ * Check if two values are loosely equal - that is ,
+ * if they are plain objects, do they have the same shape ?
+ */
+export function looseEqual(a: any, b: any): boolean {
+  if (a === b) return true
+  const isObjectA = isObject(a)
+  const isObjectB = isObject(b)
+  if (isObjectA && isObjectB) {
+    try {
+      cosnt isArrayA =
+    } catch (e) {
+      /* istanbul ignore next */
+      return false
+    }
+  }
+}
 
 
 /**
