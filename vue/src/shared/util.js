@@ -296,11 +296,34 @@ export function looseEqual(a: any, b: any): boolean {
   const isObjectB = isObject(b)
   if (isObjectA && isObjectB) {
     try {
-      cosnt isArrayA =
+      const isArrayA = Array.isArray(a)
+      const isArrayB = Array.isArray(b)
+      if (isArrayA && isArrayB) {
+        return a.length === b.length && a.every((e, i) => {
+          return looseEqual(e, b[i])
+        })
+      } else if (a instanceof Date && b instanceof Date) {
+        return a.getTime() === b.getTime()
+      } else if (!isArrayA && !isArrayB) {
+        // 都不是数组，就循环键值
+        const keysA = Object.keys(a)
+        const keysB = Object.keys(b)
+        // 只是在a，b的键值数量相同的情况下遍历a的键值，其实并不是很绝对
+        return keysA.length === keysB.length && keysA.every(key => {
+          return looseEqual(a[key], b[key])
+        })
+      } else {
+        /* istanbul ignore next */
+        return false
+      }
     } catch (e) {
       /* istanbul ignore next */
       return false
     }
+  } else if (!isObjectA && !isObjectB) {
+    return String(a) === String(b)
+  } else {
+    return false
   }
 }
 
@@ -308,3 +331,29 @@ export function looseEqual(a: any, b: any): boolean {
 /**
  * @todo CURRENT
  */
+
+/**
+ * Return the first index at which a loosely equal value can be
+ * found in the array (if value is a plain object, the array must
+ * contain an object of the same shape), or -1 if it is not present.
+ */
+// indexOf的升级版，可以比较其他类型
+export function looseIndexOf(arr: Array<mixed>, val: mixed): number {
+  for (let i = 0; i < arr.length; i++) {
+    if (looseEqual(arr[i], val)) return i
+  }
+  return -1
+}
+
+/**
+ * Ensure a function is called only once.
+ */
+export function once (fn: Function): Function {
+  let called = false
+  return function () {
+    if (!called) {
+      called = true
+      fn.apply(this, arguments)
+    }
+  }
+}
